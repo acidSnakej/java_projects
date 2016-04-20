@@ -1,0 +1,4 @@
+3,3,lel,1,2,soluciones web,3,2.0,1.0,3.0,2.1
+2,2,david,calle lel,300,construcciones,4,3.0,4.0,5.0,4.1
+1,1,juan,calle lel,310,soluciones web,40,5.0,4.0,3.0,3.9
+5,5,lol,lel,310,construcciones,2,3.0,2.0,1.0,1.9
