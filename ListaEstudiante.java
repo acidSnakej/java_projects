@@ -1,10 +1,7 @@
-
 import javax.swing.JOptionPane;
 import java.io.*;
-import java.text.DecimalFormat;
-
 public class ListaEstudiante {
-    NodoEstudiante Primero, ultimo, aux, nuevo, ant, post;
+    NodoEstudiante Primero, ultimo, aux,aux2, nuevo, ant, post,temporal,temporal2, temporalLEL;
     static Lectura entrada = new Lectura();
 
     // Constructor
@@ -12,32 +9,40 @@ public class ListaEstudiante {
 
     public void Buscar()
     {
-        String cadena = "";
-        int ident = entrada.entero("Digite el numero de identificacion del estudiante: ");
-        int codigo = entrada.entero("Digite el numero de codigo del estudiante: ");
-        boolean validar = validarIdCod(ident,codigo,"b");
-        if ( validar == false ) {
-            cadena += "Identificacion: "  + aux.id        + "\n" +
-                    "Codigo: "          + aux.codigo    + "\n" +
-                    "Nombres: "         + aux.nombres   + "\n" +
-                    "Direccion: "       + aux.direccion + "\n" +
-                    "Telefono: "        + aux.telefono  + "\n" +
-                    "Programa: "        + aux.programa  + "\n" +
-                    "Semestre: "        + aux.semestre  + "\n" +
-                    "Nota 1: "          + aux.nota1     + "\n" +
-                    "Nota 2: "          + aux.nota2     + "\n" +
-                    "Nota 3: "          + aux.nota3     + "\n" +
-                    "Promedio: "        + aux.notFinal;
-            JOptionPane.showMessageDialog(null, cadena); // vamos bien por ahora
+        if (Primero == null)
+            JOptionPane.showMessageDialog( null, "No existen registros");
+        else {
+            String cadena = "";
+            int ident = entrada.entero("Digite el número de identificación del estudiante: ");
+            int codigo = entrada.entero("Digite el número de código del estudiante: ");
+            boolean validar = validarIdCod(ident, codigo);
+            if (validar == false) {
+                cadena += "Identificacion: " + aux.id + "\n" +
+                        "Código: " + aux.codigo + "\n" +
+                        "Nombres: " + aux.nombres + "\n" +
+                        "Direccion: " + aux.direccion + "\n" +
+                        "Telefono: " + aux.telefono + "\n" +
+                        "Programa: " + aux.programa + "\n" +
+                        "Semestre: " + aux.semestre + "\n" +
+                        "Nota 1: " + aux.nota1 + "\n" +
+                        "Nota 2: " + aux.nota2 + "\n" +
+                        "Nota 3: " + aux.nota3 + "\n" +
+                        "Promedio: " + aux.notFinal;
+
+                JOptionPane.showMessageDialog(null, cadena); // vamos bien por ahora
+            } else
+                JOptionPane.showMessageDialog(null, "Error el codigo y/o Identificacion no coinciden o no existen!!!!"); // vamos bien por ahora
+
+
         }
-
-
-    }// Cierre del metodo Buscar
+    }// Cierre del método Buscar
 
     public void DespliegaLista(){
         String cad =  "";
         String cad1 = "";
+        String cad2 = "";
         int pag = 0;
+        int size = 0;
         aux = Primero;
         if(aux == null)
             JOptionPane.showMessageDialog(null, "no hay datos en la lista");
@@ -57,9 +62,9 @@ public class ListaEstudiante {
                             "Nota 1: "        + aux.nota1       +   "\n" +
                             "Nota 2: "        + aux.nota2       +   "\n" +
                             "Nota 3: "        + aux.nota3       +   "\n" +
-                            "Promedio: "      + aux.notFinal    +   "\n";
+                            "Promedio: "      + aux.notFinal    +   "\n"+"\n";
                     aux = aux.sig;
-                }else
+                }else if ( pag >=3 && pag <=5)
                 {
                     cad1 += "Identificacion: " + aux.id          +   "\n" +
                             "Codigo: "        + aux.codigo      +   "\n" +
@@ -71,82 +76,146 @@ public class ListaEstudiante {
                             "Nota 1: "        + aux.nota1       +   "\n" +
                             "Nota 2: "        + aux.nota2       +   "\n" +
                             "Nota 3: "        + aux.nota3       +   "\n" +
-                            "Promedio: "      + aux.notFinal    +   "\n";
+                            "Promedio: "      + aux.notFinal    +   "\n" +"\n";
                     aux = aux.sig;
                 }
+                else
+                {
+                    cad2 += "Identificacion: " + aux.id          +   "\n" +
+                            "Codigo: "        + aux.codigo      +   "\n" +
+                            "Nombres: "       + aux.nombres     +   "\n" +
+                            "Direccion: "     + aux.direccion   +   "\n" +
+                            "Telefono: "      + aux.telefono    +   "\n" +
+                            "Programa: "      + aux.programa    +   "\n" +
+                            "Semestre: "      + aux.semestre    +   "\n" +
+                            "Nota 1: "        + aux.nota1       +   "\n" +
+                            "Nota 2: "        + aux.nota2       +   "\n" +
+                            "Nota 3: "        + aux.nota3       +   "\n" +
+                            "Promedio: "      + aux.notFinal    +   "\n"+"\n";
+                    aux = aux.sig;
+                }
+                size++;
             }
             int pag2 = 1;
-            JOptionPane.showMessageDialog( null, cad + "pagina " + pag2); // PaginaciÃ³n sencilla no automatizada
+            JOptionPane.showMessageDialog( null, cad + "pagina " + pag2); // Paginación sencilla no automatizada
             pag2++;
             if ( !cad1.equals("")) // muestra datos si hay mas de 3 datos
                 JOptionPane.showMessageDialog( null, cad1 + "pagina " + pag2);
+            pag2++;
+            if (!cad2.equals(""))
+                JOptionPane.showMessageDialog( null, cad2 + "pagina " + pag2);
+
+            JOptionPane.showMessageDialog( null, "Cantidad de elementos "+size);
         }
 
     }// Cierre de metodo DespliegaLista
 
     public void Eliminar()
     {
-        int op = 0;
-        do
-        {
-            String menu = "Menu de Eliminacion "      + "\n" +
-                    "¿Desea Eliminar por bloque?" + "\n" +
-                    "1.Si" + "\n" + "2.No" +"\n"+ "0.Retornar";
-            op = entrada.entero(menu);
-            if ( op == 1)
-            {
+        int op  = 0;
+        int op2 = 0;
+        if (Primero == null)
+            JOptionPane.showMessageDialog( null, "No existen registros");
+        else {
+            do {
+                String menu = "Menu de Eliminación " + "\n" +
+                        "¿Desea Eliminar registros por bloques?" + "\n" +
+                        "1.Si" + "\n" + "2.No" + "\n" + "0.Retornar";
+                op = entrada.entero(menu);
+                if (op == 1) {
+                    String criterio = entrada.cadena("Por favor ingrese el programa que desea eliminar");
+                    boolean validar = validarPrograma(criterio);
 
-                String menu2 = "¿Que desea Eliminar? " + "\n" +
-                        "1.Por programa " + "\n" + "2.Por semestre\n"+"0.retornar";
-                int op2 = entrada.entero(menu2);
-                switch ( op2 )
-                {
-
-                    case 1:
+                    if (!validar)
+                        JOptionPane.showMessageDialog(null, "No existe el programa en la lista");
+                    else
+                    {
                         aux = Primero;
-                        String nwProg = entrada.cadena("Digite el programa").toLowerCase();
-                        boolean primerLugar = true;
-
-                        aux = Primero;
-                        boolean validar = true;
-                        int posiciones2 = 1;
-                        while ( aux != null ){
-
-                            if ( aux.programa.equals(nwProg) && posiciones2 == 1) {
-                                primerLugar = false;
-                                if (!primerLugar){
-                                    Primero = aux.sig;
-                                    aux = Primero;
-                                    System.out.println("pase por aqui");
-                                    posiciones2 = 1;
-                                }
-                            }
-                            else
-                                posiciones2++;
-                            aux = aux.sig;
-                        }
-
-                        break;
-                    case 2:
-                        int nwSemt = entrada.entero("Digite el nuevo semestre");
-                        while ( aux != null )
+                        aux2 = Primero;
+                        while (aux != null)
                         {
-                            aux.semestre = nwSemt;
-                            aux = aux.sig;
+                           if (aux.programa.equals(criterio))
+                           {
+                              aux2 = aux.sig;
+                              aux = aux2.sig;
+                           }
+                           aux = aux.sig;
+
                         }
-                        break;
+
+                    }
+
                 }
-            }
-        }while(op!=0);
 
+                else if (op == 2) {
 
+                    String menu2 = "Menu de Eliminación Especifica " + "\n" +
+                            "¿Cómo desea Eliminar?" + "\n" +
+                            "1.Antes de" + "\n" + "2.Despues de" + "\n"+
+                            "0.retornar";
+                    op2 = entrada.entero(menu2);
 
+                    switch (op2) {
+                        case 1:
+                            int ident1 = entrada.entero("Digite la identificacion: ");
+                            int cod1 = entrada.entero("Digite el código: ");
+                            boolean validar1 = validarIdCod(ident1, cod1);
+                            if (!validar1) {
+                                EliminarAnt();
+                            } else
+                                JOptionPane.showMessageDialog(null, "Error la identificación y/o el código no coinciden");
+                            break;
+
+                        case 2:
+                            int ident2 = entrada.entero("Digite la identificacion: ");
+                            int cod2 = entrada.entero("Digite el código: ");
+                            boolean validar2 = validarIdCod(ident2, cod2);
+                            if (!validar2) {
+                                EliminarDesp();
+                            } else
+                                JOptionPane.showMessageDialog(null, "Error la identificación y/o el código no coinciden");
+                            break;
+
+                    }
+                }
+            } while (op != 0);
+        }
     }// Cierre de Eliminar
 
+    public void EliminarAnt()
+    {
+
+        if ( aux.id.equals(Primero.id) )
+        {
+            Primero = aux.sig;
+            aux = Primero;
+        }else
+            Primero = aux;
+        JOptionPane.showMessageDialog( null, "Registros eliminados correctamente" );
+    }//Cierre del Método EliminarAnt
+
+    public void EliminarDesp()
+    {
+        if ( aux.id.equals(Primero.id) )
+        {
+            Primero.sig = ultimo.sig;
+            Primero = ultimo;
+        }else if ( aux.id.equals(ultimo.id) ) {
+            JOptionPane.showMessageDialog(null, "Error no existen nodos que eliminar"); // vamos bien por ahora
+        }else{
+            aux.sig = null;
+        }
+        JOptionPane.showMessageDialog( null, "Registros eliminados correctamente" );
+    }//Cierre del Método EliminarDesp
+
+    public void EliminarEsp()
+    {
+    }// Cierre de EliminarEsp
 
     public  void GuardarFichero(){
         int i;
-        File archivo = new File("~\\Documents\\juan.txt");
+        String fichero = entrada.cadena("Escriba el nombre el fichero").toLowerCase();
+        File archivo = new File("D://"+fichero+".txt");
         aux = Primero;
         try{
             FileWriter w = new FileWriter( archivo );
@@ -164,16 +233,14 @@ public class ListaEstudiante {
             }
             wr.close();
             bw.close();
+            JOptionPane.showMessageDialog( null, "Se ha guardado correctamente el fichero" );
         }catch(IOException e){
-            JOptionPane.showMessageDialog( null, "No se encontra el archivo!" );
+            JOptionPane.showMessageDialog( null, "No se encontró el archivo!" );
         }
     } // fin metodo guardarFichero
 
-
-
     public void InsertBack()
     {
-        DecimalFormat decimal = new DecimalFormat("0.0");
         if ( Primero == null )
         {
 
@@ -184,7 +251,7 @@ public class ListaEstudiante {
             double nota2 = entrada.notas("Ingrese la segunda nota del estudiante " + nom);
             double nota3 = entrada.notas("Ingrese la tercera nota del estudiante " + nom);
             String prog = entrada.cadena("Ingrese el programa del estudiante " + nom).toLowerCase();
-            int sem = entrada.entero("Ingrese el semestre del estudiante " + nom);
+            int sem = entrada.semestre("Ingrese el semestre del estudiante " + nom);
             String dir = entrada.cadena("Ingrese la direccion del estudiante " + nom).toLowerCase();
             String tel = entrada.cadena("Ingrese el telefono " + nom);
             double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
@@ -198,7 +265,7 @@ public class ListaEstudiante {
             {
                 int ident    = entrada.entero("Ingrese el numero de identificacion: ");
                 int cod      = entrada.entero("Ingrese el codigo del estudiante: ");
-                boolean validar = validarIdCod(ident,cod,"i"); // valida si false si la id o cod se repiten.
+                boolean validar = validarInsert(ident,cod); // valida si false si la id o cod se repiten.
                 if ( validar )
                 {
                     String nom = entrada.cadena("Ingrese el nombre del estudiante: ").toLowerCase();
@@ -206,7 +273,7 @@ public class ListaEstudiante {
                     double nota2 = entrada.notas("Ingrese la segunda nota del estudiante " + nom);
                     double nota3 = entrada.notas("Ingrese la tercera nota del estudiante " + nom);
                     String prog = entrada.cadena("Ingrese el programa del estudiante " + nom).toLowerCase();
-                    int sem = entrada.entero("Ingrese el semestre del estudiante " + nom);
+                    int sem = entrada.semestre("Ingrese el semestre del estudiante " + nom);
                     String dir = entrada.cadena("Ingrese la direccion del estudiante " + nom).toLowerCase();
                     String tel = entrada.cadena("Ingrese el telefono " + nom);
                     double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
@@ -233,7 +300,7 @@ public class ListaEstudiante {
             double nota2 = entrada.notas("Ingrese la segunda nota del estudiante " + nom);
             double nota3 = entrada.notas("Ingrese la tercera nota del estudiante " + nom);
             String prog = entrada.cadena("Ingrese el programa del estudiante " + nom).toLowerCase();
-            int sem = entrada.entero("Ingrese el semestre del estudiante " + nom);
+            int sem = entrada.semestre("Ingrese el semestre del estudiante " + nom);
             String dir = entrada.cadena("Ingrese la direccion del estudiante " + nom).toLowerCase();
             String tel = entrada.cadena("Ingrese el telefono " + nom);
             double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
@@ -247,7 +314,7 @@ public class ListaEstudiante {
             {
                 int ident    = entrada.entero("Ingrese el numero de identificacion: ");
                 int cod      = entrada.entero("Ingrese el codigo del estudiante: ");
-                boolean validar = validarIdCod(ident,cod,"i"); // valida si false si la id o cod se repiten.
+                boolean validar = validarInsert(ident,cod); // valida si false si la id o cod se repiten.
                 if ( validar )
                 {
                     String nom = entrada.cadena("Ingrese el nombre del estudiante: ").toLowerCase();
@@ -255,7 +322,7 @@ public class ListaEstudiante {
                     double nota2 = entrada.notas("Ingrese la segunda nota del estudiante " + nom);
                     double nota3 = entrada.notas("Ingrese la tercera nota del estudiante " + nom);
                     String prog = entrada.cadena("Ingrese el programa del estudiante " + nom).toLowerCase();
-                    int sem = entrada.entero("Ingrese el semestre del estudiante " + nom);
+                    int sem = entrada.semestre("Ingrese el semestre del estudiante " + nom);
                     String dir = entrada.cadena("Ingrese la direccion del estudiante " + nom).toLowerCase();
                     String tel = entrada.cadena("Ingrese el telefono " + nom);
                     double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
@@ -274,8 +341,8 @@ public class ListaEstudiante {
 
     public void LeerFichero(){
         int n=0;  String[] sep; String registro = "";
-       // File archivo = new File("/home/acidSnake/Repositories/projects_java/test.txt")
-       
+        String fichero = entrada.cadena("Digite el nombre del fichero").toLowerCase();
+        File archivo = new File( "D://"+(fichero)+".txt");
         try{
             BufferedReader in = new BufferedReader( new FileReader(archivo) );
             registro = in.readLine();
@@ -305,10 +372,11 @@ public class ListaEstudiante {
                 registro = in.readLine(); // leer el siguiente registro
             }
             // System.out.println("Cantidad String: "+ n ); Para saber la cantidad de lineas que hay en el archivo
+            JOptionPane.showMessageDialog( null, "Se ha cargado el archivo correctamente" );
             in.close();
         }
         catch( IOException e ){
-            JOptionPane.showMessageDialog( null, "No se encontra el archivo!" );
+            JOptionPane.showMessageDialog( null, "No se encontró el archivo!" );
         }
 
     } //fin metodo leerFichero
@@ -318,12 +386,12 @@ public class ListaEstudiante {
         String cadena = " === Datos del estudiante === \n";
         aux = Primero;
         if (aux == null)
-            JOptionPane.showMessageDialog(null, "La lista esta vacia");
+            JOptionPane.showMessageDialog(null, "La lista esta vacía");
         /*
         while ( aux != null)
         {
-            int ident = entrada.entero("Digite el nÃºmero de identificaciÃ³n del estudiante: ");
-            int codigo = entrada.entero("Digite el nÃºmero de cÃ³digo del estudiante: ");
+            int ident = entrada.entero("Digite el número de identificación del estudiante: ");
+            int codigo = entrada.entero("Digite el número de código del estudiante: ");
             if ( aux.id.equals(ident) && aux.codigo.equals(codigo) )
                 break;
             aux = aux.sig;
@@ -331,14 +399,14 @@ public class ListaEstudiante {
         */ // Validacion para encontrar el de modifcar.
         else
         {
-            int ident = entrada.entero("Digite el nÃºmero de identificaciÃ³n del estudiante: ");
-            int codigo = entrada.entero("Digite el nÃºmero de cÃ³digo del estudiante: ");
-            boolean validar = validarIdCod(ident,codigo,"m");
+            int ident = entrada.entero("Digite el número de identificación del estudiante: ");
+            int codigo = entrada.entero("Digite el número de código del estudiante: ");
+            boolean validar = validarIdCod(ident,codigo);
             if ( !validar  )
             {
                 int op = 0;
                 cadena += "Identificacion: "  + aux.id        + "\n" +
-                        "CÃ³digo: "          + aux.codigo    + "\n" +
+                        "Código: "          + aux.codigo    + "\n" +
                         "Nombres: "         + aux.nombres   + "\n" +
                         "Direccion: "       + aux.direccion + "\n" +
                         "Telefono: "        + aux.telefono  + "\n" +
@@ -350,7 +418,7 @@ public class ListaEstudiante {
                         "Promedio: "        + aux.notFinal;
                 JOptionPane.showMessageDialog(null, cadena); // vamos bien por ahora
                 do {
-                    String menu = "¿Que desea modificar?" + "\n" +
+                    String menu = "¿Qué desea modificar?" + "\n" +
                             "1.Nombres"   + "\n" +
                             "2.Direccion" + "\n" +
                             "3.Telefono"  + "\n" +
@@ -369,12 +437,12 @@ public class ListaEstudiante {
                             aux.nombres = nwNom;
                             break;
                         case 2:
-                            String op2   = "Direccion: "+ aux.direccion + "\n"+ "Ingrese la nueva direccion por favor";
+                            String op2   = "Dirección: "+ aux.direccion + "\n"+ "Ingrese la nueva dirección por favor";
                             String nwDir = entrada.cadena(op2);
                             aux.direccion = nwDir;
                             break;
                         case 3:
-                            String op3   = "Telefono: "+ aux.telefono + "\n"+ "Ingrese el nuevo telefono por favor";
+                            String op3   = "Teléfono: "+ aux.telefono + "\n"+ "Ingrese el nuevo teléfono por favor";
                             String nwTel = entrada.cadena(op3);
                             aux.telefono = nwTel;
                             break;
@@ -413,74 +481,88 @@ public class ListaEstudiante {
                 aux.notFinal = promedio;
 
             }else
-                JOptionPane.showMessageDialog(null, "Error  identificacion y/o codigo incorrectos");
+                JOptionPane.showMessageDialog(null, "Error  identificación y/o código incorrectos");
         }
     }// Cierre del metodo modificar.
 
     public void ModificarB()
     {
         int op = 0;
-        do
-        {
-            String menu = "Menu de modifcacion por bloques"      + "\n" +
-                    "Desea modificar todos los registros?" + "\n" +
-                    "1.Si" + "\n" + "2.No" +"\n"+ "0.Retornar";
-            op = entrada.entero(menu);
-            if ( op == 1)
-            {
-                aux = Primero;
-                String menu2 = "Que desea modificar? " + "\n" +
-                        "1.Programa " + "\n" + "2.Semestre\n"+"0.retornar";
-                int op2 = entrada.entero(menu2);
-                switch ( op2 )
-                {
-                    case 1:
-                        String nwProg = entrada.cadena("Digite el nuevo programa").toLowerCase();
-                        while ( aux != null )
-                        {
-                            aux.programa = nwProg;
-                            aux = aux.sig;
-                        }
-                        break;
-                    case 2:
-                        int nwSemt = entrada.entero("Digite el nuevo semestre");
-                        while ( aux != null )
-                        {
-                            aux.semestre = nwSemt;
-                            aux = aux.sig;
-                        }
-                        break;
+        if (Primero == null)
+            JOptionPane.showMessageDialog( null, "No existen registros");
+        else {
+            do {
+                String menu = "Menu de modifcacion por bloques" + "\n" +
+                        "Desea modificar todos los registros?" + "\n" +
+                         "1.Si" + "\n" + "2.No" + "\n" + "0.Retornar";
+                op = entrada.entero(menu);
+                if (op == 1) {
+                    aux = Primero;
+                    String menu2 = "Que desea modificar? " + "\n" +
+                            "1.Programa " + "\n" + "2.Semestre\n" + "0.retornar";
+                    int op2 = entrada.entero(menu2);
+                    switch (op2) {
+                        case 1:
+                            String criterio = entrada.cadena("Por favor escriba que programa desea modificar");
+                            boolean validar = validarPrograma(criterio);
+                            aux = Primero;
+                            if (!validar)
+                                JOptionPane.showMessageDialog(null, "Error  no existe el programa en la lista");
+
+
+                            else
+                            {
+
+                                String nwProg = entrada.cadena("Digite el nuevo programa").toLowerCase();
+
+                                while (aux != null) {
+                                    if (aux.programa.equals(criterio)){
+                                        aux.programa = nwProg;
+                                    }
+                                    aux = aux.sig;
+                                }
+                                    JOptionPane.showMessageDialog(null, "Modificacion completada");
+
+                            }
+                            break;
+                        case 2:
+                            int nwSemt = entrada.entero("Digite el nuevo semestre");
+                            while (aux != null) {
+                                aux.semestre = nwSemt;
+                                aux = aux.sig;
+                            }
+                            break;
+                    }
+                } else if (op == 2) {
+                    String menu2 = "Opciones de modificacion? " + "\n" +
+                            "1.Antes de " + "\n" + "2.Despues de\n" + "0.retornar";
+                    String cadena = "";
+                    int op2 = entrada.entero(menu2);
+                    switch (op2) {
+                        case 1:
+                            int ident = entrada.entero("Digite el numero de identificacion: ");
+                            int cod = entrada.entero("Digite el codigo: ");
+                            boolean validar = validarIdCod(ident, cod);
+                            if (!validar) {
+                                ModificarAnt();
+
+                            } else
+                                JOptionPane.showMessageDialog(null, "Error  identificación y/o código incorrectos");
+                            break;
+                        case 2:
+                            int ident1 = entrada.entero("Digite el numero de identificacion: ");
+                            int cod1 = entrada.entero("Digite el codigo: ");
+                            boolean validar1 = validarIdCod(ident1, cod1);
+                            if (!validar1) {
+                                ModificarDesp();
+
+                            } else
+                                JOptionPane.showMessageDialog(null, "Error  identificación y/o código incorrectos");
+                            break;
+                    }
                 }
-            }else if ( op == 2 ){
-                String menu2 = "Opciones de modificacion? " + "\n" +
-                        "1.Antes de " + "\n" + "2.Despues de\n"+"0.retornar";
-                String cadena = "";
-                int op2 = entrada.entero(menu2);
-                switch ( op2 )
-                {
-                    case 1:
-                        int ident = entrada.entero("Digite el numero de identificacion: ");
-                        int cod   = entrada.entero("Digite el codigo: ");
-                        boolean validar = validarIdCod(ident,cod,"l");
-                        if ( !validar ) {
-                            ModificarAnt();
-                        }
-                        break;
-                    case 2:
-                        int ident1 = entrada.entero("Digite el numero de identificacion: ");
-                        int cod1   = entrada.entero("Digite el codigo: ");
-                        boolean validar1 = validarIdCod(ident1,cod1,"l");
-                        if ( !validar1 ) {
-                            ModificarDesp();
-                        }
-                        break;
-
-                }
-
-
-            }
-        }while(op!=0);
-
+            } while (op != 0);
+        }
     }// Cierre de ModificarB (bloque)
 
     public void ModificarAnt() // tipo es si es semestre o programa
@@ -488,62 +570,31 @@ public class ListaEstudiante {
         ant = Primero;
         String cadena = "";
         int op = 0;
+        if ( aux.id.equals(Primero.id) )
+            JOptionPane.showMessageDialog( null, "No se puede modificar, porque no existen registro antes del primero" );
+        else{
+            do{
+                String menu = "Que desea modificar?\n"       +
+                        "1.Programa\n" +"2.Semestre\n" +
+                        "0.retornar";
+                op = entrada.entero(menu);
+                switch ( op )
+                {
+                    case 1:
+                        String nwProg = entrada.cadena("Digite el nuevo programa: ").toLowerCase();
+                        while (ant!=null)
+                        {
+                            if ( ant.id.equals(aux.id) )
+                                break;
 
-        do{
-            String menu = "Que desea modificar?\n"       +
-                    "1.Programa\n" +"2.Semestre\n" +
-                    "0.retornar";
-            op = entrada.entero(menu);
-            switch ( op )
-            {
-                case 1:
-                    String nwProg = entrada.cadena("Digite el nuevo programa: ");
-                    while (ant!=null)
-                    {
-                        if ( ant.id.equals(aux.id) )
-                            break;
-                        cadena += ant.id;
-                        ant.programa = nwProg;
-                        ant = ant.sig;
-                    }
-                    System.out.println(cadena);
-                    break;
-            } // falta arreglar la modificaciones
-        }while(op!=0);
-
-        /*
-        aux = Primero;
-
-        int op = 0;
-        do {
-            String menu = "Que cambios desea realizar al "+tipo+" de "+opcion+"?\n" +
-                    "1.Programa" + "\n" + "2.Semestre\n" +
-                    "0.retornar";
-            op = entrada.entero(menu);
-            switch ( op )
-            {
-                case 1:
-                    String nwProg = entrada.cadena("Digite el nuevo programa ").toLowerCase();
-                    while (aux!=null)
-                    {
-                        if( aux.programa.equals(opcion) || aux.semestre.toString().equals(opcion) )
-                            aux.programa = nwProg;
-                        aux = aux.sig;
-                    }
-                    break;
-                case 2:
-                    int nwSemt = entrada.entero("Digite el nuevo semestre ");
-                    while (aux!=null)
-                    {
-                        if( aux.semestre.toString().equals(opcion) )
-                            aux.semestre = nwSemt ;
-                        aux = aux.sig;
-                    }
-                    break;
-            }
-        }while(op!=0);
-        */
-
+                            ant.programa = nwProg;
+                            ant = ant.sig;
+                        }
+                        break;
+                } // falta arreglar la modificaciones
+            }while(op!=0);
+            JOptionPane.showMessageDialog( null, "Se han modificado correctamente!" );
+        }
     }// Ciere ModificarE
 
     public void ModificarDesp()
@@ -551,40 +602,50 @@ public class ListaEstudiante {
         post = aux;
         String cadena = "";
         int op = 0;
-
-        do{
-            String menu = "Que desea modificar?\n"       +
-                    "1.Programa\n" +"2.Semestre\n" +
-                    "0.retornar";
-            op = entrada.entero(menu);
-            switch ( op )
-            {
-                case 1:
-                    String nwProg = entrada.cadena("Digite el nuevo programa: ");
-                    while (post!=null)
-                    {
-                        if ( post.id.equals(aux.id) )
+        if( aux.id.equals(ultimo.id) )
+            JOptionPane.showMessageDialog( null, "No se puede modificar, porque no existen registros después del ultimo" );
+        else {
+            do {
+                String menu = "Que desea modificar?\n" +
+                        "1.Programa\n" + "2.Semestre\n" +
+                        "0.retornar";
+                op = entrada.entero(menu);
+                switch (op) {
+                    case 1:
+                        String nwProg = entrada.cadena("Digite el nuevo programa: ").toLowerCase();
+                        while (post != null) {
+                            if (post.id.equals(aux.id))
+                                post = post.sig;
+                            post.programa = nwProg;
                             post = post.sig;
-                        cadena += post.id;
-                        post.programa = nwProg;
-                        post = post.sig;
-                    }
-                    System.out.println(cadena);
-                    break;
-            } // falta arreglar la modificaciones
-        }while(op!=0);
-
-
+                        }
+                        break;
+                } // falta arreglar la modificaciones
+            } while (op != 0);
+            JOptionPane.showMessageDialog( null, "Se han modificado correctamente!" );
+        }
     }// Cierre de ModificarDesp
 
+    public void ModificarSecret()
+    {
+        validarSecrect();
+    }// Cierre del método ModificarSecret
 
-    public boolean validarIdCod(int ident, int cod, String buscar)
+    public boolean validarSecrect()
+    {
+
+        return true;
+    }// Cierre del método validarSecret
+
+
+    public boolean validarIdCod(int ident, int cod)
     {
         boolean validar = true;
         aux = Primero;
         while (aux != null)
         {
-            if ( aux.id.equals(ident) && aux.codigo.equals(cod) || aux.id.equals(ident) && buscar.equals("b")|| aux.codigo.equals(cod) && buscar.equals("b") ) {
+            if ( aux.id.equals(ident) && aux.codigo.equals(cod))
+            {
                 validar = false;
                 break;
             }
@@ -593,4 +654,33 @@ public class ListaEstudiante {
         return validar;
     }//Cierre de la funcion validaIdCod
 
+    public boolean validarInsert(int ident, int cod)
+    {
+        boolean validar = true;
+        aux = Primero;
+        while (aux != null)
+        {
+            if ( aux.id.equals(ident) && aux.codigo.equals(cod) || aux.id.equals(ident) || aux.codigo.equals(cod) )
+            {
+                validar = false;
+                break;
+            }
+
+            aux = aux.sig;
+        }
+        return validar;
+    }//Cierre de la funcion validaInsert
+
+    public boolean validarPrograma(String prog)
+    {
+        boolean validar = false;
+        aux = Primero;
+        while (aux != null)
+        {
+            if (aux.programa.equals(prog))
+                validar = true;
+            aux = aux.sig;
+        }
+        return validar;
+    }
 }// Cierre ListaEstudiante

@@ -1,15 +1,8 @@
+
 /**
+ * Created by jorge on 30/11/15.
  */
 
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class Ejecucion{
     static Lectura entrada = new Lectura();
@@ -27,8 +20,10 @@ public class Ejecucion{
                 "5.Modificar Bloque"        + "\n" +
                 "6.Eliminar"                + "\n" +
                 "7.Buscar"                  + "\n" +
+                "8.Leer Fichero"            + "\n" +
+                "9.Guardar Fichero"         + "\n" +
                 "0.Salir";
-        estud.LeerFichero();
+
         do
         {
             op = entrada.entero(menu);
@@ -39,10 +34,12 @@ public class Ejecucion{
                 case 3: estud.DespliegaLista(); break;
                 case 4: estud.Modificar();      break;
                 case 5: estud.ModificarB();     break;
-                case 6: estud.Eliminar();     break;
+                case 6: estud.Eliminar();       break;
                 case 7: estud.Buscar();         break;
+                case 8: estud.LeerFichero();    break;
+                case 9: estud.GuardarFichero(); break;
             }//Cierre del switch
         }while(op != 0);
-        estud.GuardarFichero();
     }// Cierre del metodo main
 }
+

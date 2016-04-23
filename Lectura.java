@@ -1,6 +1,3 @@
-/**
- */
-
 import javax.swing.JOptionPane;
 
 /**
@@ -80,4 +77,23 @@ public class Lectura {
         return n;
     }
 
+    public int semestre (String cad){
+        int n = 0;
+        int sw = 0;
+        while( sw == 0){
+            try{
+                n = Integer.parseInt( JOptionPane.showInputDialog(null,cad) );
+                if (n > 0 && n <10 )
+                    sw = 1;
+                else
+                    JOptionPane.showMessageDialog(null, "El semestre debe ser mayor que 0 y menor o igual a 10");
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, "El semestre debe ser mayor que 0 y menor o igual a 10");
+            }
+        }
+        return n;
+    }
+
 }
+

@@ -1,5 +1,7 @@
-import java.util.Objects;
 
+/**
+ * Created by jorge on 30/11/15.
+ */
 public  class NodoEstudiante {
 
     Integer id, codigo;
@@ -42,9 +44,5 @@ public  class NodoEstudiante {
         this.sig  = liga;
     }
 
-    public String getPrograma()
-    {
-        return "";
-    }
-
 }
+
