@@ -4,11 +4,11 @@
  */
 public  class NodoEstudiante {
 
-    Integer id, codigo;
+    Integer id, codigo, numb;
     Object nombres,nota1,nota2,nota3,notFinal, programa, semestre, direccion, telefono;
     NodoEstudiante sig;
 
-    // Constructor que insertBack
+    //Constructor que insertBack
     public NodoEstudiante
     (int ident,int cod, Object nom, Object not1, Object not2, Object not3, Object notF, Object prog, Object sem, Object dir, Object tel)
     {
@@ -42,6 +42,11 @@ public  class NodoEstudiante {
         direccion = dir;
         telefono  = tel;
         this.sig  = liga;
+    }
+
+    public NodoEstudiante(int number)
+    {
+        numb = number;
     }
 
 }

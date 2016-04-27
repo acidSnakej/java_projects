@@ -1,7 +1,8 @@
 import javax.swing.JOptionPane;
 import java.io.*;
 public class ListaEstudiante {
-    NodoEstudiante Primero, ultimo, aux,aux2, nuevo, ant, post,temporal,temporal2, temporalLEL;
+    int tmp,tmp2,tmp3;
+    NodoEstudiante Primero, ultimo, aux,aux2,aux3,nuevo, ant, post,temporal,temporal2, temporalLEL;
     static Lectura entrada = new Lectura();
 
     // Constructor
@@ -132,15 +133,41 @@ public class ListaEstudiante {
                     {
                         aux = Primero;
                         aux2 = Primero;
+                        aux3 = Primero;
+
                         while (aux != null)
                         {
-                           if (aux.programa.equals(criterio))
-                           {
-                              aux2 = aux.sig;
-                              aux = aux2.sig;
-                           }
-                           aux = aux.sig;
 
+                            aux2 = aux2.sig;
+                            if (aux.programa.equals(criterio) && aux2 != null)
+                            {
+                                Primero = aux2;
+                                Primero.sig = aux2.sig;
+                                System.out.println("Vamos a ver cuantos programas encontre.");
+                            }
+
+                            if (aux2.programa.equals(criterio) && aux.sig!=null)
+                            {
+                                System.out.println("Controlar ulimto nodo");
+                                System.out.println(ultimo.programa);
+                                aux.sig = null;
+                            }
+                            if(aux.programa.equals(criterio) && aux.sig==null)
+                            {
+                                boolean validar1 = nodosIguales(criterio);
+                                if (validar1)
+                                {
+                                    aux = aux3;
+                                    Primero = null;
+                                    ultimo = Primero;
+                                }
+                            }
+
+                            aux = aux.sig;
+                            aux3 = aux3.sig;
+
+                            if (aux==null)
+                                System.out.println("Aqui termina el ciclo");
                         }
 
                     }
@@ -682,5 +709,131 @@ public class ListaEstudiante {
             aux = aux.sig;
         }
         return validar;
+    }
+
+    public boolean nodosIguales(String prog)
+    {
+        boolean validar = true;
+        aux = Primero;
+        while (aux != null)
+        {
+            if (!aux.programa.equals(prog))
+                validar = false;
+            aux = aux.sig;
+
+        }
+        return validar;
+    }
+
+    public void sort_form()
+    {
+        int number = entrada.entero("Ingrese el numero para el nodo");
+        if (Primero==null)
+        {
+            Primero = new NodoEstudiante(number);
+            ultimo = Primero;
+        }
+        else
+        {
+            nuevo = new NodoEstudiante(number);
+            ultimo.sig = nuevo;
+            ultimo = nuevo;
+        }
+        aux = Primero;
+        while (aux!=null)
+        {
+            System.out.println(aux.numb);
+
+            aux = aux.sig;
+        }
+
+    }
+    public void sort_node()
+    {
+        aux = Primero;
+        aux3 = Primero;
+
+        while (aux!=null)
+        {
+            aux2 = Primero;
+            while (aux2.sig!=null)
+            {
+                if (aux2.numb > aux2.sig.numb)
+                {
+                    tmp = aux2.sig.numb;
+                    aux2.sig.numb = aux2.numb;
+                    aux2.numb = tmp;
+
+                }
+                aux2 = aux2.sig;
+            }
+            aux = aux.sig;
+        }
+    }
+
+    public void saveTest()
+    {
+        String fichero = entrada.cadena("Escriba el nombre del fichero").toLowerCase();
+        File archivo = new File("D://"+fichero+".txt");
+        aux = Primero;
+        try{
+            FileWriter w = new FileWriter( archivo );
+            BufferedWriter bw = new BufferedWriter(w);
+            PrintWriter wr = new PrintWriter(bw);
+            while ( aux != null)
+            {
+                String cadena = "";
+                cadena += aux.numb + "," +"\n";
+                aux = aux.sig;
+                wr.append( cadena );
+            }
+            wr.close();
+            bw.close();
+            JOptionPane.showMessageDialog( null, "Se ha guardado correctamente el fichero" );
+        }catch(IOException e){
+            JOptionPane.showMessageDialog( null, "No se encontró el archivo!" );
+        }
+    }
+    public void readTest()
+    {
+
+        int n=0;  String[] sep; String registro = "";
+        String fichero = entrada.cadena("Digite el nombre del fichero").toLowerCase();
+        File archivo = new File( "D://"+(fichero)+".txt");
+        try{
+            BufferedReader in = new BufferedReader( new FileReader(archivo) );
+            registro = in.readLine();
+            while( registro != null ){
+                n++;
+                sep = registro.split(",");
+                int numb        = Integer.parseInt(sep[0]);
+                if ( Primero == null ) {
+                    Primero = new NodoEstudiante(numb);
+                    ultimo  = Primero;
+                }
+                else{
+                    nuevo = new NodoEstudiante(numb);
+                    ultimo.sig = nuevo;
+                    ultimo = nuevo;
+                }
+                registro = in.readLine(); // leer el siguiente registro
+            }
+            // System.out.println("Cantidad String: "+ n ); Para saber la cantidad de lineas que hay en el archivo
+            JOptionPane.showMessageDialog( null, "Se ha cargado el archivo correctamente" );
+            in.close();
+        }
+        catch( IOException e ){
+            JOptionPane.showMessageDialog( null, "No se encontró el archivo!" );
+        }
+    }
+
+    public void showNodes()
+    {
+        aux = Primero;
+        while (aux!=null)
+        {
+            System.out.println(aux.numb);
+            aux = aux.sig;
+        }
     }
 }// Cierre ListaEstudiante

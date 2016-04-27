@@ -22,6 +22,8 @@ public class Ejecucion{
                 "7.Buscar"                  + "\n" +
                 "8.Leer Fichero"            + "\n" +
                 "9.Guardar Fichero"         + "\n" +
+                "10.agregar numeros al nodo"         + "\n" +
+                "11.Ordenar nodo"         + "\n" +
                 "0.Salir";
 
         do
@@ -31,13 +33,15 @@ public class Ejecucion{
             {
                 case 1: estud.InsertBack();     break;
                 case 2: estud.InsertHead();     break;
-                case 3: estud.DespliegaLista(); break;
+                case 3: estud.showNodes(); break;
                 case 4: estud.Modificar();      break;
                 case 5: estud.ModificarB();     break;
                 case 6: estud.Eliminar();       break;
                 case 7: estud.Buscar();         break;
-                case 8: estud.LeerFichero();    break;
-                case 9: estud.GuardarFichero(); break;
+                case 8: estud.readTest();    break;
+                case 9: estud.saveTest(); break;
+                case 10: estud.sort_form(); break;
+                case 11: estud.sort_node(); break;
             }//Cierre del switch
         }while(op != 0);
     }// Cierre del metodo main
