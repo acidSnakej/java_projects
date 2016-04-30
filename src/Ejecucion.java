@@ -12,18 +12,19 @@ public class Ejecucion{
     {
         int op;
         boolean validar = true;
-        String menu = "Menu de opciones"    + "\n" +
-                "1.Ingresar Cola"           + "\n" +
-                "2.Ingresar Cabeza"         + "\n" +
-                "3.Despliega Lista"         + "\n" +
-                "4.Modificar"               + "\n" +
-                "5.Modificar Bloque"        + "\n" +
-                "6.Eliminar"                + "\n" +
-                "7.Buscar"                  + "\n" +
-                "8.Leer Fichero"            + "\n" +
-                "9.Guardar Fichero"         + "\n" +
-                "10.agregar numeros al nodo"         + "\n" +
-                "11.Ordenar nodo"         + "\n" +
+        String menu = "Menu de opciones"     + "\n" +
+                "1.Ingresar Cola"            + "\n" +
+                "2.Ingresar Cabeza"          + "\n" +
+                "3.Despliega Lista"          + "\n" +
+                "4.Modificar"                + "\n" +
+                "5.Modificar Bloque"         + "\n" +
+                "6.Eliminar"                 + "\n" +
+                "7.Buscar"                   + "\n" +
+                "8.Leer Fichero"             + "\n" +
+                "9.Guardar Fichero"          + "\n" +
+                "10.agregar numeros al nodo" + "\n" +
+                "11.Ordenar nodo"            + "\n" +
+                "12.Ingresar forma ordnada"  + "\n" +
                 "0.Salir";
 
         do
@@ -40,8 +41,9 @@ public class Ejecucion{
                 case 7: estud.Buscar();         break;
                 case 8: estud.readTest();    break;
                 case 9: estud.saveTest(); break;
-                case 10: estud.sort_form(); break;
+                case 10: estud.add_node(); break;
                 case 11: estud.sort_node(); break;
+                case 12: estud.sort_form(); break;
             }//Cierre del switch
         }while(op != 0);
     }// Cierre del metodo main

@@ -521,7 +521,7 @@ public class ListaEstudiante {
             do {
                 String menu = "Menu de modifcacion por bloques" + "\n" +
                         "Desea modificar todos los registros?" + "\n" +
-                         "1.Si" + "\n" + "2.No" + "\n" + "0.Retornar";
+                        "1.Si" + "\n" + "2.No" + "\n" + "0.Retornar";
                 op = entrada.entero(menu);
                 if (op == 1) {
                     aux = Primero;
@@ -548,7 +548,7 @@ public class ListaEstudiante {
                                     }
                                     aux = aux.sig;
                                 }
-                                    JOptionPane.showMessageDialog(null, "Modificacion completada");
+                                JOptionPane.showMessageDialog(null, "Modificacion completada");
 
                             }
                             break;
@@ -725,6 +725,34 @@ public class ListaEstudiante {
         return validar;
     }
 
+    public void add_node()
+    {
+        int number = entrada.entero("Ingrese el numero para el nodo");
+        if (Primero==null)
+        {
+            Primero = new NodoEstudiante(number);
+            ultimo = Primero;
+        }
+        else
+        {
+            nuevo = new NodoEstudiante(number);
+            ultimo.sig = nuevo;
+            ultimo = nuevo;
+        }
+        aux = Primero;
+        /*
+        Impresion de nodos
+        while (aux!=null)
+
+        {
+            System.out.println(aux.numb);
+
+            aux = aux.sig;
+        }
+        */
+
+    }// cierre de add_node
+
     public void sort_form()
     {
         int number = entrada.entero("Ingrese el numero para el nodo");
@@ -740,14 +768,17 @@ public class ListaEstudiante {
             ultimo = nuevo;
         }
         aux = Primero;
-        while (aux!=null)
+        while (aux.sig!=null)
         {
-            System.out.println(aux.numb);
-
+            if (aux.numb > aux.sig.numb)
+            {
+                tmp = aux.sig.numb;
+                aux.sig.numb = aux.numb;
+                aux.numb = tmp;
+            }
             aux = aux.sig;
         }
-
-    }
+    } // Cierre de sort_node
     public void sort_node()
     {
         aux = Primero;
