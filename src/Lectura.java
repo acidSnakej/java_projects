@@ -1,4 +1,5 @@
 import javax.swing.JOptionPane;
+/*Esto es otra prueba*/
 
 /**
  * la class Lectura tiene tres funciones que muestran una ventana para asignar un numero
