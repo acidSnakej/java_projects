@@ -6,7 +6,7 @@ public  class NodoEstudiante {
 
     Integer id, codigo, numb;
     Object nombres,nota1,nota2,nota3,notFinal, programa, semestre, direccion, telefono;
-    NodoEstudiante sig;
+    NodoEstudiante sig, ant;
 
     //Constructor que insertBack
     public NodoEstudiante

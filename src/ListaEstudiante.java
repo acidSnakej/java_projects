@@ -50,7 +50,7 @@ public class ListaEstudiante {
             JOptionPane.showMessageDialog(null, "no hay datos en la lista");
         else
         {
-            while (aux != null) {
+            do {
                 pag++;
                 if ( pag <= 3)
                 {
@@ -66,7 +66,8 @@ public class ListaEstudiante {
                             "Nota 3: "        + aux.nota3       +   "\n" +
                             "Promedio: "      + aux.notFinal    +   "\n"+"\n";
                     aux = aux.sig;
-                }else if ( pag >=3 && pag <=5)
+                }
+                else if ( pag >=3 && pag <=5)
                 {
                     cad1 += "Identificacion: " + aux.id          +   "\n" +
                             "Codigo: "        + aux.codigo      +   "\n" +
@@ -97,7 +98,7 @@ public class ListaEstudiante {
                     aux = aux.sig;
                 }
                 size++;
-            }
+            }while(aux != Primero);
             int pag2 = 1;
             JOptionPane.showMessageDialog( null, cad + "pagina " + pag2); // Paginación sencilla no automatizada
             pag2++;
@@ -285,6 +286,8 @@ public class ListaEstudiante {
             double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
             double promedio = (double) Math.round( calculo * 100) / 100; // Redondamos el decimal a 0.0
             Primero = new NodoEstudiante(ident,cod,nom,nota1,nota2,nota3,promedio,prog,sem,dir,tel);
+            Primero.sig = Primero;
+            Primero.ant = Primero;
             ultimo = Primero;
         }else
         {
@@ -308,6 +311,8 @@ public class ListaEstudiante {
                     double promedio = (double) Math.round( calculo * 100) / 100; // Redondamos el decimal a 0.0
                     nuevo = new NodoEstudiante(ident,cod,nom,nota1,nota2,nota3,promedio,prog,sem,dir,tel);
                     ultimo.sig = nuevo;
+                    nuevo.sig = Primero;
+                    nuevo.ant = ultimo;
                     ultimo = nuevo;
                     val++;
                 }
@@ -334,6 +339,8 @@ public class ListaEstudiante {
             double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
             double promedio = (double) Math.round( calculo * 100) / 100; // Redondamos el decimal a 0.0
             Primero = new NodoEstudiante(ident,cod,nom,nota1,nota2,nota3,promedio,prog,sem,dir,tel);
+            Primero.sig = Primero;
+            Primero.ant = Primero;
             ultimo = Primero;
 
         }else{
@@ -356,6 +363,10 @@ public class ListaEstudiante {
                     double calculo = (nota1 * 0.3) + (nota2 * 0.3) + (nota3 * 0.4);
                     double promedio = (double) Math.round( calculo * 100) / 100; // Redondamos el decimal a 0.0
                     nuevo = new NodoEstudiante(ident,cod,nom,nota1,nota2,nota3,promedio,prog,sem,dir,tel,Primero);
+                    nuevo.sig = Primero;
+                    nuevo.ant = ultimo;
+                    Primero.ant = nuevo;
+                    ultimo.sig = nuevo;
                     Primero = nuevo;
                     val++;
                 }
@@ -686,7 +697,7 @@ public class ListaEstudiante {
     {
         boolean validar = true;
         aux = Primero;
-        while (aux != null)
+        do
         {
             if ( aux.id.equals(ident) && aux.codigo.equals(cod) || aux.id.equals(ident) || aux.codigo.equals(cod) )
             {
@@ -695,7 +706,7 @@ public class ListaEstudiante {
             }
 
             aux = aux.sig;
-        }
+        }while (aux != Primero);
         return validar;
     }//Cierre de la funcion validaInsert
 
@@ -703,12 +714,12 @@ public class ListaEstudiante {
     {
         boolean validar = false;
         aux = Primero;
-        while (aux != null)
+        do
         {
             if (aux.programa.equals(prog))
                 validar = true;
             aux = aux.sig;
-        }
+        }while (aux != Primero);
         return validar;
     }
 
